@@ -1,12 +1,21 @@
-/* BASE */
-body{
+/* =====================
+   BASE
+===================== */
+*{
     margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
     font-family:Arial, sans-serif;
     background:#050505;
     color:white;
 }
 
-/* NAVBAR */
+/* =====================
+   NAVBAR
+===================== */
 .navbar{
     display:flex;
     justify-content:space-between;
@@ -14,18 +23,9 @@ body{
     padding:20px 40px;
     background:#0a0a0a;
     border-bottom:1px solid #ff000020;
-}
-
-.nav-links a{
-    text-decoration:none;
-    color:white;
-    opacity:0.7;
-    transition:0.3s;
-}
-
-.nav-links a:hover{
-    opacity:1;
-    color:#ff0033;
+    position:sticky;
+    top:0;
+    z-index:1000;
 }
 
 .logo{
@@ -35,15 +35,7 @@ body{
     color:#ff0033;
 }
 
-a{
-    text-decoration:none;
-}
-
-*{
-    box-sizing:border-box;
-}
-
-/* MENU */
+/* LINKS */
 .nav-links{
     display:flex;
     list-style:none;
@@ -51,17 +43,26 @@ a{
 }
 
 .nav-links li{
-    cursor:pointer;
-    opacity:0.7;
-    transition:0.3s;
+    display:inline-block;
 }
 
-.nav-links li:hover{
+/* IMPORTANTE: LINKS REALES */
+.nav-links a{
+    text-decoration:none;
+    color:white;
+    opacity:0.7;
+    transition:0.3s;
+    font-size:14px;
+}
+
+.nav-links a:hover{
     opacity:1;
     color:#ff0033;
 }
 
-/* LOGIN / REGISTRO */
+/* =====================
+   AUTH BUTTONS
+===================== */
 .auth{
     display:flex;
     gap:10px;
@@ -78,6 +79,7 @@ a{
 
 .login:hover{
     background:#ff0033;
+    box-shadow:0 0 15px #ff003355;
 }
 
 .signup{
@@ -86,10 +88,17 @@ a{
     color:white;
     padding:8px 14px;
     cursor:pointer;
-    box-shadow:0 0 15px #ff003344;
+    box-shadow:0 0 15px #ff003355;
+    transition:0.3s;
 }
 
-/* HERO */
+.signup:hover{
+    transform:scale(1.05);
+}
+
+/* =====================
+   HERO
+===================== */
 .hero{
     text-align:center;
     padding:140px 20px;
@@ -105,8 +114,10 @@ a{
 .hero p{
     opacity:0.7;
     margin-top:-10px;
+    font-size:18px;
 }
 
+/* BOTÓN PRINCIPAL */
 .main-btn{
     margin-top:25px;
     padding:12px 28px;
@@ -122,4 +133,5 @@ a{
 
 .main-btn:hover{
     transform:scale(1.05);
+    box-shadow:0 0 35px #ff003355;
 }
