@@ -35,6 +35,14 @@ body{
     color:#ff0033;
 }
 
+a{
+    text-decoration:none;
+}
+
+*{
+    box-sizing:border-box;
+}
+
 /* MENU */
 .nav-links{
     display:flex;
