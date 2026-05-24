@@ -396,3 +396,8 @@ body{
     color:#ff0033;
     text-decoration:none;
 }
+
+/* Mejora opcional para inputs */
+.auth-box input{
+    letter-spacing:0.5px;
+}

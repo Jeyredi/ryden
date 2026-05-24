@@ -17,6 +17,7 @@ function loadNavbar() {
             <li><a href="${base}comunidad.html" data-page="comunidad">Comunidad</a></li>
             <li><a href="${base}perfil.html" data-page="perfil">Perfil</a></li>
             <li><a href="${base}login.html" data-page="login">Login</a></li>
+            <li><a href="${base}register.html" data-page="register">Registro</a></li>
         </ul>
 
         <div class="auth">
