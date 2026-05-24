@@ -1,7 +1,8 @@
 function loadNavbar() {
-    const isRoot = !window.location.pathname.includes('/pages/');
-    const base = isRoot ? 'pages/' : '';
-    const home = isRoot ? 'index.html' : '../index.html';
+    const path = window.location.pathname;
+    const inPages = path.includes('/pages/');
+    const base = inPages ? '' : 'pages/';
+    const home = inPages ? '../index.html' : 'index.html';
 
     const navbar = `
     <nav class="navbar">
@@ -29,18 +30,19 @@ function loadNavbar() {
 
 function setActiveLink() {
     const path = window.location.pathname;
-    const currentFile = path.split('/').pop() || 'index.html';
+
+    // Obtener el nombre del archivo actual
+    let currentFile = path.split('/').pop();
+
+    // Si termina en '/' o está vacío, es la raíz = index.html
+    if (!currentFile || currentFile === 'ryden') {
+        currentFile = 'index.html';
+    }
 
     document.querySelectorAll(".nav-links a").forEach(link => {
-        const href = link.getAttribute("href");
-        const linkFile = href.split('/').pop();
-
-        if (currentFile === linkFile) {
-            link.classList.add("active");
-        }
-
-        // caso especial: raíz sin archivo explícito
-        if ((currentFile === '' || currentFile === 'ryden') && linkFile === 'index.html') {
+        link.classList.remove("active");
+        const linkFile = link.getAttribute("href").split('/').pop();
+        if (linkFile === currentFile) {
             link.classList.add("active");
         }
     });
