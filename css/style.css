@@ -1,19 +1,4 @@
-body{
-    margin:0;
-    font-family:Arial, sans-serif;
-    background:#0f172a;
-    color:white;
-    text-align:center;
-}
-
-header{
-    padding: 100px 20px;
-}
-
-h1{
-    font-size:60px;
-}
-
+/* BASE */
 body{
     margin:0;
     font-family:Arial, sans-serif;
@@ -38,6 +23,7 @@ body{
     color:#ff0033;
 }
 
+/* MENU */
 .nav-links{
     display:flex;
     list-style:none;
@@ -55,7 +41,7 @@ body{
     color:#ff0033;
 }
 
-/* AUTH */
+/* LOGIN / REGISTRO */
 .auth{
     display:flex;
     gap:10px;
@@ -67,6 +53,11 @@ body{
     color:white;
     padding:8px 14px;
     cursor:pointer;
+    transition:0.3s;
+}
+
+.login:hover{
+    background:#ff0033;
 }
 
 .signup{
@@ -75,6 +66,7 @@ body{
     color:white;
     padding:8px 14px;
     cursor:pointer;
+    box-shadow:0 0 15px #ff003344;
 }
 
 /* HERO */
@@ -86,16 +78,28 @@ body{
 .hero h1{
     font-size:70px;
     color:#ff0033;
-    letter-spacing:5px;
+    letter-spacing:6px;
+    text-shadow:0 0 20px #ff003355;
+}
+
+.hero p{
+    opacity:0.7;
+    margin-top:-10px;
 }
 
 .main-btn{
-    margin-top:20px;
+    margin-top:25px;
     padding:12px 28px;
     background:#ff0033;
     border:none;
     color:white;
     cursor:pointer;
     font-weight:bold;
-    box-shadow:0 0 20px #ff003344;
+    border-radius:8px;
+    box-shadow:0 0 25px #ff003355;
+    transition:0.3s;
+}
+
+.main-btn:hover{
+    transform:scale(1.05);
 }
