@@ -94,3 +94,27 @@ function completeMission(type) {
 
 // Un solo DOMContentLoaded
 document.addEventListener("DOMContentLoaded", updateRewardsUI);
+
+// =====================
+// PERFIL
+// =====================
+function loadProfile() {
+    const user = getUser();
+    if (!user) return;
+
+    const data = getUserData();
+
+    const usernameEl = document.getElementById("username");
+    const userTagEl  = document.getElementById("userTag");
+    const pointsEl   = document.getElementById("points");
+    const levelEl    = document.getElementById("level");
+    const matchesEl  = document.getElementById("matches");
+
+    if (usernameEl) usernameEl.innerText = user;
+    if (userTagEl)  userTagEl.innerText  = "#RYD-" + user.slice(0, 3).toUpperCase() + "01";
+    if (pointsEl)   pointsEl.innerText   = data.points;
+    if (levelEl)    levelEl.innerText    = data.level;
+    if (matchesEl)  matchesEl.innerText  = Math.floor(data.points / 20);
+}
+
+document.addEventListener("DOMContentLoaded", loadProfile);
