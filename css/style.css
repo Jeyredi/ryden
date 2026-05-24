@@ -597,3 +597,50 @@ body{
         padding:6px 10px;
     }
 }
+
+/* =====================
+   REWARDS
+===================== */
+.rewards{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:20px;
+    padding:40px;
+}
+
+.reward-card{
+    width:250px;
+    padding:20px;
+    background:#0a0a0a;
+    border:1px solid #ff000020;
+    text-align:center;
+    border-radius:12px;
+    box-shadow:0 0 20px #ff003315;
+}
+
+.reward-card h2{
+    color:#ff0033;
+}
+
+.missions{
+    margin-top:20px;
+    text-align:center;
+}
+
+.missions button{
+    display:block;
+    margin:10px auto;
+    padding:10px 20px;
+    background:#ff0033;
+    border:none;
+    color:white;
+    cursor:pointer;
+    border-radius:8px;
+    transition:0.3s;
+}
+
+.missions button:hover{
+    box-shadow:0 0 15px #ff0033;
+    transform:scale(1.05);
+}

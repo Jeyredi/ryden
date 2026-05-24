@@ -10,15 +10,32 @@
 
 <div class="hero small">
     <h1>Rewards</h1>
-    <p>Gana puntos y desbloquea recompensas</p>
+    <p>Gana puntos y sube de nivel</p>
 </div>
 
-<div class="coming-soon">
-    <div class="cs-icon">🎁</div>
-    <h2>PRÓXIMAMENTE</h2>
-    <p>Estamos construyendo algo épico</p>
-    <div class="cs-bar"></div>
-</div>
+<section class="rewards">
+
+    <div class="reward-card">
+        <h2>💰 Tus puntos</h2>
+        <p id="points">0 RP</p>
+    </div>
+
+    <div class="reward-card">
+        <h2>⭐ Nivel</h2>
+        <p id="level">1</p>
+    </div>
+
+    <div class="missions">
+
+        <h2>🎯 Misiones</h2>
+
+        <button onclick="completeMission('login')">Iniciar sesión (+10 RP)</button>
+
+        <button onclick="completeMission('play1')">Entrar a torneos (+20 RP)</button>
+
+    </div>
+
+</section>
 
 <script src="../js/script.js"></script>
 <script src="../js/components.js"></script>
