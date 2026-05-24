@@ -1,0 +1,99 @@
+/* =====================
+   PERFIL
+===================== */
+.profile{
+    display:flex;
+    justify-content:center;
+    padding:50px 20px;
+}
+
+.profile-card{
+    background:#0a0a0a;
+    border:1px solid #ff000020;
+    padding:30px;
+    border-radius:15px;
+    width:320px;
+    text-align:center;
+    box-shadow:0 0 20px #ff003315;
+    transition:0.3s;
+}
+
+.profile-card:hover{
+    border-color:#ff0033;
+    box-shadow:0 0 30px #ff003322;
+}
+
+.avatar{
+    width:90px;
+    height:90px;
+    background:#1a1a1a;
+    border:2px solid #ff0033;
+    border-radius:50%;
+    margin:0 auto 15px auto;
+    box-shadow:0 0 15px #ff003344;
+}
+
+.profile-card h2{
+    color:#ff0033;
+    margin-bottom:5px;
+}
+
+.tag{
+    opacity:0.6;
+    font-size:12px;
+    margin-bottom:20px;
+}
+
+.stats{
+    display:flex;
+    justify-content:space-between;
+    margin:20px 0;
+}
+
+.stats div{
+    text-align:center;
+}
+
+.stats h3{
+    color:#ff0033;
+    font-size:18px;
+}
+
+.stats p{
+    font-size:12px;
+    opacity:0.6;
+}
+
+.profile-card button{
+    width:100%;
+    padding:10px;
+    background:#ff0033;
+    border:none;
+    color:white;
+    cursor:pointer;
+    border-radius:8px;
+    transition:0.3s;
+}
+
+.profile-card button:hover{
+    box-shadow:0 0 15px #ff0033;
+    transform:scale(1.03);
+}
+
+.logout-btn{
+    margin-top:10px;
+    width:100%;
+    padding:10px;
+    background:transparent;
+    border:1px solid #ff0033;
+    color:#ff0033;
+    cursor:pointer;
+    border-radius:8px;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+.logout-btn:hover{
+    background:#ff003320;
+    box-shadow:0 0 15px #ff003333;
+}

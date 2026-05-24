@@ -1,0 +1,42 @@
+/* =====================
+   HERO
+===================== */
+.hero{
+    text-align:center;
+    padding:140px 20px;
+}
+
+.hero h1{
+    font-size:70px;
+    color:#ff0033;
+    letter-spacing:6px;
+    text-shadow:0 0 20px #ff003355;
+}
+
+.hero p{
+    opacity:0.7;
+    margin-top:-10px;
+    font-size:18px;
+}
+
+.hero.small{
+    padding:80px 20px;
+}
+
+.main-btn{
+    margin-top:25px;
+    padding:12px 28px;
+    background:#ff0033;
+    border:none;
+    color:white;
+    cursor:pointer;
+    font-weight:bold;
+    border-radius:8px;
+    box-shadow:0 0 25px #ff003355;
+    transition:0.3s;
+}
+
+.main-btn:hover{
+    transform:scale(1.05);
+    box-shadow:0 0 35px #ff003355;
+}
