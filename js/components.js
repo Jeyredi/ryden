@@ -1,18 +1,19 @@
 function loadNavbar() {
     const isRoot = !window.location.pathname.includes('/pages/');
-    const base = isRoot ? '' : '../';
+    const base = isRoot ? 'pages/' : '';
+    const home = isRoot ? 'index.html' : '../index.html';
 
     const navbar = `
     <nav class="navbar">
         <div class="logo">RYDEN</div>
 
         <ul class="nav-links">
-            <li><a href="${base}index.html" data-page="home">Inicio</a></li>
-            <li><a href="${base}pages/torneos.html" data-page="torneos">Torneos</a></li>
-            <li><a href="${base}pages/leagues.html" data-page="leagues">Leagues</a></li>
-            <li><a href="${base}pages/rewards.html" data-page="rewards">Rewards</a></li>
-            <li><a href="${base}pages/pass.html" data-page="pass">Pass</a></li>
-            <li><a href="${base}pages/comunidad.html" data-page="comunidad">Comunidad</a></li>
+            <li><a href="${home}" data-page="home">Inicio</a></li>
+            <li><a href="${base}torneos.html" data-page="torneos">Torneos</a></li>
+            <li><a href="${base}leagues.html" data-page="leagues">Leagues</a></li>
+            <li><a href="${base}rewards.html" data-page="rewards">Rewards</a></li>
+            <li><a href="${base}pass.html" data-page="pass">Pass</a></li>
+            <li><a href="${base}comunidad.html" data-page="comunidad">Comunidad</a></li>
         </ul>
 
         <div class="auth">
@@ -23,25 +24,24 @@ function loadNavbar() {
     `;
 
     document.body.insertAdjacentHTML("afterbegin", navbar);
-
     setActiveLink();
 }
 
 function setActiveLink() {
     const path = window.location.pathname;
+    const currentFile = path.split('/').pop() || 'index.html';
 
     document.querySelectorAll(".nav-links a").forEach(link => {
         const href = link.getAttribute("href");
+        const linkFile = href.split('/').pop();
 
-        if (path.endsWith(href.replace('../', ''))) {
+        if (currentFile === linkFile) {
             link.classList.add("active");
         }
 
-        // caso especial para inicio
-        if (path.endsWith("index.html") || path === "/" || path.endsWith("/ryden/")) {
-            if (href.includes("index.html")) {
-                link.classList.add("active");
-            }
+        // caso especial: raíz sin archivo explícito
+        if ((currentFile === '' || currentFile === 'ryden') && linkFile === 'index.html') {
+            link.classList.add("active");
         }
     });
 }
