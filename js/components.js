@@ -32,7 +32,6 @@ function loadNavbar() {
             <li><a href="${base}rewards.html" data-page="rewards">Rewards</a></li>
             <li><a href="${base}pass.html" data-page="pass">Pass</a></li>
             <li><a href="${base}comunidad.html" data-page="comunidad">Comunidad</a></li>
-            ${perfilLink}
         </ul>
 
         ${authSection}
