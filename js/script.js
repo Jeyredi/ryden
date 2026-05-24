@@ -28,5 +28,6 @@ function registerUser() {
 
 function logoutUser() {
     localStorage.removeItem("rydenUser");
-    location.reload();
+    const inPages = window.location.pathname.includes('/pages/');
+    window.location.href = inPages ? '../index.html' : 'index.html';
 }

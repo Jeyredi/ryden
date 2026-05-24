@@ -420,3 +420,46 @@ body{
 .user-icon:hover{
     filter:drop-shadow(0 0 6px #ff0033);
 }
+
+/* BOTÓN PERFIL EN NAVBAR */
+.btn-perfil{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    padding:8px 14px;
+    border:1px solid #ff0033;
+    border-radius:8px;
+    color:white;
+    text-decoration:none;
+    font-size:13px;
+    font-weight:bold;
+    transition:0.3s;
+    max-width:120px;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+}
+
+.btn-perfil:hover{
+    background:#ff0033;
+    box-shadow:0 0 15px #ff003355;
+}
+
+/* BOTÓN CERRAR SESIÓN EN PERFIL */
+.logout-btn{
+    margin-top:10px;
+    width:100%;
+    padding:10px;
+    background:transparent;
+    border:1px solid #ff0033;
+    color:#ff0033;
+    cursor:pointer;
+    border-radius:8px;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+.logout-btn:hover{
+    background:#ff003320;
+    box-shadow:0 0 15px #ff003333;
+}
