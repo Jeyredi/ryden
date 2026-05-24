@@ -1,15 +1,18 @@
 function loadNavbar() {
+    const isRoot = !window.location.pathname.includes('/pages/');
+    const base = isRoot ? '' : '../';
+
     const navbar = `
     <nav class="navbar">
         <div class="logo">RYDEN</div>
 
         <ul class="nav-links">
-            <li><a href="/index.html" data-page="home">Inicio</a></li>
-            <li><a href="/pages/torneos.html" data-page="torneos">Torneos</a></li>
-            <li><a href="/pages/leagues.html" data-page="leagues">Leagues</a></li>
-            <li><a href="/pages/rewards.html" data-page="rewards">Rewards</a></li>
-            <li><a href="/pages/pass.html" data-page="pass">Pass</a></li>
-            <li><a href="/pages/comunidad.html" data-page="comunidad">Comunidad</a></li>
+            <li><a href="${base}index.html" data-page="home">Inicio</a></li>
+            <li><a href="${base}pages/torneos.html" data-page="torneos">Torneos</a></li>
+            <li><a href="${base}pages/leagues.html" data-page="leagues">Leagues</a></li>
+            <li><a href="${base}pages/rewards.html" data-page="rewards">Rewards</a></li>
+            <li><a href="${base}pages/pass.html" data-page="pass">Pass</a></li>
+            <li><a href="${base}pages/comunidad.html" data-page="comunidad">Comunidad</a></li>
         </ul>
 
         <div class="auth">
@@ -30,12 +33,12 @@ function setActiveLink() {
     document.querySelectorAll(".nav-links a").forEach(link => {
         const href = link.getAttribute("href");
 
-        if (path.endsWith(href)) {
+        if (path.endsWith(href.replace('../', ''))) {
             link.classList.add("active");
         }
 
         // caso especial para inicio
-        if (path.endsWith("index.html") || path === "/") {
+        if (path.endsWith("index.html") || path === "/" || path.endsWith("/ryden/")) {
             if (href.includes("index.html")) {
                 link.classList.add("active");
             }
