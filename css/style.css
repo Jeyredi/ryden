@@ -463,3 +463,137 @@ body{
     background:#ff003320;
     box-shadow:0 0 15px #ff003333;
 }
+
+/* =====================
+   PRÓXIMAMENTE
+===================== */
+.coming-soon{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:80px 20px;
+    text-align:center;
+}
+
+.coming-soon .cs-icon{
+    font-size:48px;
+    margin-bottom:20px;
+    filter:drop-shadow(0 0 10px #ff003388);
+}
+
+.coming-soon h2{
+    font-size:28px;
+    color:#ff0033;
+    letter-spacing:4px;
+    text-shadow:0 0 15px #ff003355;
+    margin-bottom:10px;
+}
+
+.coming-soon p{
+    opacity:0.5;
+    font-size:14px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+}
+
+.coming-soon .cs-bar{
+    margin-top:30px;
+    width:200px;
+    height:2px;
+    background:#1a1a1a;
+    border-radius:2px;
+    overflow:hidden;
+}
+
+.coming-soon .cs-bar::after{
+    content:"";
+    display:block;
+    width:40%;
+    height:100%;
+    background:#ff0033;
+    box-shadow:0 0 10px #ff0033;
+    animation:slide 2s ease-in-out infinite;
+}
+
+@keyframes slide{
+    0%   { transform:translateX(-100%); }
+    50%  { transform:translateX(150%); }
+    100% { transform:translateX(350%); }
+}
+
+/* =====================
+   RESPONSIVE
+===================== */
+@media(max-width:768px){
+
+    /* NAVBAR */
+    .navbar{
+        flex-wrap:wrap;
+        padding:14px 20px;
+        gap:10px;
+    }
+
+    .nav-links{
+        order:3;
+        width:100%;
+        flex-wrap:wrap;
+        gap:12px;
+        padding:8px 0 4px;
+        border-top:1px solid #ff000020;
+    }
+
+    .auth{
+        margin-left:auto;
+    }
+
+    /* HERO */
+    .hero h1{
+        font-size:42px;
+    }
+
+    .hero p{
+        font-size:15px;
+    }
+
+    /* TORNEOS */
+    .tournaments{
+        padding:20px;
+        grid-template-columns:1fr;
+    }
+
+    /* PERFIL */
+    .profile-card{
+        width:100%;
+        max-width:320px;
+    }
+
+    /* AUTH */
+    .auth-box{
+        width:90%;
+    }
+}
+
+@media(max-width:480px){
+    .hero h1{
+        font-size:32px;
+        letter-spacing:3px;
+    }
+
+    .navbar{
+        padding:12px 16px;
+    }
+
+    .nav-links{
+        gap:8px;
+    }
+
+    .nav-links a{
+        font-size:12px;
+    }
+
+    .btn-perfil{
+        font-size:12px;
+        padding:6px 10px;
+    }
+}
