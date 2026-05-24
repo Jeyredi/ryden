@@ -6,14 +6,20 @@ function loadNavbar() {
 
     const user = localStorage.getItem("rydenUser");
 
+    // Perfil solo aparece si hay sesión
+    const perfilLink = user
+        ? `<li><a href="${base}perfil.html" data-page="perfil">Perfil</a></li>`
+        : '';
+
+    // Botones auth: si hay sesión muestra usuario + salir, si no Login/Registro
     const authSection = user
         ? `<div class="auth">
                 <span class="user">👤 ${user}</span>
                 <button class="login" onclick="logoutUser()">Salir</button>
            </div>`
         : `<div class="auth">
-                <button class="login"><a href="${base}${inPages ? '' : ''}${inPages ? 'login.html' : 'pages/login.html'}">Login</a></button>
-                <button class="signup"><a href="${inPages ? '' : 'pages/'}register.html">Registro</a></button>
+                <button class="login" onclick="window.location.href='${base}login.html'">Login</button>
+                <button class="signup" onclick="window.location.href='${base}register.html'">Registro</button>
            </div>`;
 
     const navbar = `
@@ -27,7 +33,7 @@ function loadNavbar() {
             <li><a href="${base}rewards.html" data-page="rewards">Rewards</a></li>
             <li><a href="${base}pass.html" data-page="pass">Pass</a></li>
             <li><a href="${base}comunidad.html" data-page="comunidad">Comunidad</a></li>
-            <li><a href="${base}perfil.html" data-page="perfil">Perfil</a></li>
+            ${perfilLink}
         </ul>
 
         ${authSection}
