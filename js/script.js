@@ -7,8 +7,6 @@ function loginUser() {
     }
 
     localStorage.setItem("rydenUser", username);
-
-    // Ruta relativa para GitHub Pages
     window.location.href = "../index.html";
 }
 
@@ -21,8 +19,6 @@ function registerUser() {
     }
 
     localStorage.setItem("rydenUser", username);
-
-    // Ruta relativa para GitHub Pages
     window.location.href = "../index.html";
 }
 
@@ -41,7 +37,6 @@ function getUser() {
 
 function getUserData() {
     const user = getUser();
-
     if (!user) return null;
 
     const data = JSON.parse(localStorage.getItem("rydenData_" + user));
@@ -50,12 +45,8 @@ function getUserData() {
         const newData = {
             points: 0,
             level: 1,
-            missions: {
-                login: false,
-                play1: false
-            }
+            missions: { login: false, play1: false }
         };
-
         localStorage.setItem("rydenData_" + user, JSON.stringify(newData));
         return newData;
     }
@@ -76,10 +67,10 @@ function updateRewardsUI() {
     if (!data) return;
 
     const pointsEl = document.getElementById("points");
-    const levelEl = document.getElementById("level");
+    const levelEl  = document.getElementById("level");
 
     if (pointsEl) pointsEl.innerText = data.points + " RP";
-    if (levelEl) levelEl.innerText = data.level;
+    if (levelEl)  levelEl.innerText  = data.level;
 }
 
 function completeMission(type) {
@@ -95,14 +86,11 @@ function completeMission(type) {
     if (type === "play1") data.points += 20;
 
     data.missions[type] = true;
-
-    // subir nivel cada 50 puntos
     data.level = Math.floor(data.points / 50) + 1;
 
     saveUserData(data);
     updateRewardsUI();
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    updateRewardsUI();
-});
+// Un solo DOMContentLoaded
+document.addEventListener("DOMContentLoaded", updateRewardsUI);

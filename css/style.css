@@ -74,6 +74,7 @@ body{
     color:white;
     padding:8px 14px;
     cursor:pointer;
+    border-radius:8px;
     transition:0.3s;
 }
 
@@ -88,6 +89,7 @@ body{
     color:white;
     padding:8px 14px;
     cursor:pointer;
+    border-radius:8px;
     box-shadow:0 0 15px #ff003355;
     transition:0.3s;
 }
