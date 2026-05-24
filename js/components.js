@@ -16,6 +16,7 @@ function loadNavbar() {
             <li><a href="${base}pass.html" data-page="pass">Pass</a></li>
             <li><a href="${base}comunidad.html" data-page="comunidad">Comunidad</a></li>
             <li><a href="${base}perfil.html" data-page="perfil">Perfil</a></li>
+            <li><a href="${base}login.html" data-page="login">Login</a></li>
         </ul>
 
         <div class="auth">
