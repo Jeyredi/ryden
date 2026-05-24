@@ -408,3 +408,15 @@ body{
     font-weight:bold;
     margin-right:10px;
 }
+
+/* ÍCONO USUARIO */
+.user-icon{
+    font-size:22px;
+    text-decoration:none;
+    margin-right:8px;
+    transition:0.3s;
+}
+
+.user-icon:hover{
+    filter:drop-shadow(0 0 6px #ff0033);
+}

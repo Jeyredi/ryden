@@ -14,7 +14,7 @@ function loadNavbar() {
     // Botones auth: si hay sesión muestra usuario + salir, si no Login/Registro
     const authSection = user
         ? `<div class="auth">
-                <span class="user">👤 ${user}</span>
+                <a href="${base}perfil.html" class="user-icon">👤</a>
                 <button class="login" onclick="logoutUser()">Salir</button>
            </div>`
         : `<div class="auth">
