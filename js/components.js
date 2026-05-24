@@ -4,6 +4,18 @@ function loadNavbar() {
     const base = inPages ? '' : 'pages/';
     const home = inPages ? '../index.html' : 'index.html';
 
+    const user = localStorage.getItem("rydenUser");
+
+    const authSection = user
+        ? `<div class="auth">
+                <span class="user">👤 ${user}</span>
+                <button class="login" onclick="logoutUser()">Salir</button>
+           </div>`
+        : `<div class="auth">
+                <button class="login"><a href="${base}${inPages ? '' : ''}${inPages ? 'login.html' : 'pages/login.html'}">Login</a></button>
+                <button class="signup"><a href="${inPages ? '' : 'pages/'}register.html">Registro</a></button>
+           </div>`;
+
     const navbar = `
     <nav class="navbar">
         <div class="logo">RYDEN</div>
@@ -16,14 +28,9 @@ function loadNavbar() {
             <li><a href="${base}pass.html" data-page="pass">Pass</a></li>
             <li><a href="${base}comunidad.html" data-page="comunidad">Comunidad</a></li>
             <li><a href="${base}perfil.html" data-page="perfil">Perfil</a></li>
-            <li><a href="${base}login.html" data-page="login">Login</a></li>
-            <li><a href="${base}register.html" data-page="register">Registro</a></li>
         </ul>
 
-        <div class="auth">
-            <button class="login">Login</button>
-            <button class="signup">Registro</button>
-        </div>
+        ${authSection}
     </nav>
     `;
 
@@ -33,11 +40,8 @@ function loadNavbar() {
 
 function setActiveLink() {
     const path = window.location.pathname;
-
-    // Obtener el nombre del archivo actual
     let currentFile = path.split('/').pop();
 
-    // Si termina en '/' o está vacío, es la raíz = index.html
     if (!currentFile || currentFile === 'ryden') {
         currentFile = 'index.html';
     }

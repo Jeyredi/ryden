@@ -401,3 +401,10 @@ body{
 .auth-box input{
     letter-spacing:0.5px;
 }
+
+/* USUARIO ACTIVO EN NAVBAR */
+.user{
+    color:#ff0033;
+    font-weight:bold;
+    margin-right:10px;
+}
