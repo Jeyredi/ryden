@@ -1,0 +1,54 @@
+/* =====================
+   DASHBOARD
+===================== */
+.dashboard{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
+    gap:20px;
+    padding:40px;
+}
+
+.dash-card{
+    background:#0a0a0a;
+    border:1px solid #ff000020;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 0 20px #ff003315;
+    transition:0.3s;
+}
+
+.dash-card:hover{
+    border-color:#ff0033;
+    box-shadow:0 0 25px #ff003322;
+    transform:translateY(-3px);
+}
+
+.dash-card h2{
+    color:#ff0033;
+    font-size:16px;
+}
+
+.dash-card p{
+    font-size:18px;
+    margin-top:10px;
+}
+
+.dash-card.big{
+    grid-column:span 2;
+}
+
+.dash-card button{
+    margin:8px 5px 0 0;
+    padding:10px;
+    background:#ff0033;
+    border:none;
+    color:white;
+    cursor:pointer;
+    border-radius:8px;
+    transition:0.3s;
+}
+
+.dash-card button:hover{
+    box-shadow:0 0 15px #ff0033;
+    transform:scale(1.05);
+}

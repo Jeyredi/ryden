@@ -28,10 +28,12 @@ function loadNavbar() {
         <ul class="nav-links">
             <li><a href="${home}" data-page="home">Inicio</a></li>
             <li><a href="${base}torneos.html" data-page="torneos">Torneos</a></li>
+            <li><a href="${base}dashboard.html" data-page="dashboard">Dashboard</a></li>
             <li><a href="${base}leagues.html" data-page="leagues">Leagues</a></li>
             <li><a href="${base}rewards.html" data-page="rewards">Rewards</a></li>
             <li><a href="${base}pass.html" data-page="pass">Pass</a></li>
             <li><a href="${base}comunidad.html" data-page="comunidad">Comunidad</a></li>
+            <li><a href="${base}dashboard.html" data-page="dashboard">Dashboard</a></li>
         </ul>
 
         ${authSection}

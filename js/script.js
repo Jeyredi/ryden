@@ -118,3 +118,51 @@ function loadProfile() {
 }
 
 document.addEventListener("DOMContentLoaded", loadProfile);
+
+// =====================
+// DASHBOARD
+// =====================
+function loadDashboard() {
+    const user = getUser();
+    if (!user) return;
+
+    const data = getUserData();
+
+    const dUser    = document.getElementById("d-user");
+    const dTag     = document.getElementById("d-tag");
+    const dPoints  = document.getElementById("d-points");
+    const dLevel   = document.getElementById("d-level");
+    const dMatches = document.getElementById("d-matches");
+
+    if (dUser)    dUser.innerText    = user;
+    if (dTag)     dTag.innerText     = "#RYD-" + user.slice(0,3).toUpperCase();
+    if (dPoints)  dPoints.innerText  = data.points + " RP";
+    if (dLevel)   dLevel.innerText   = data.level;
+    if (dMatches) dMatches.innerText = Math.floor(data.points / 20);
+}
+
+document.addEventListener("DOMContentLoaded", loadDashboard);
+
+// =====================
+// DASHBOARD
+// =====================
+function loadDashboard() {
+    const user = getUser();
+    if (!user) return;
+
+    const data = getUserData();
+
+    const dUser    = document.getElementById("d-user");
+    const dTag     = document.getElementById("d-tag");
+    const dPoints  = document.getElementById("d-points");
+    const dLevel   = document.getElementById("d-level");
+    const dMatches = document.getElementById("d-matches");
+
+    if (dUser)    dUser.innerText    = user;
+    if (dTag)     dTag.innerText     = "#RYD-" + user.slice(0,3).toUpperCase();
+    if (dPoints)  dPoints.innerText  = data.points + " RP";
+    if (dLevel)   dLevel.innerText   = data.level;
+    if (dMatches) dMatches.innerText = Math.floor(data.points / 20);
+}
+
+document.addEventListener("DOMContentLoaded", loadDashboard);
