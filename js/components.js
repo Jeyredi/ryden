@@ -6,15 +6,17 @@ function loadNavbar() {
 
     const user = localStorage.getItem("rydenUser");
 
-    // Perfil solo aparece si hay sesión
-    const perfilLink = user
-        ? `<li><a href="${base}perfil.html" data-page="perfil">Perfil</a></li>`
-        : '';
-
-    // Botones auth: si hay sesión muestra usuario + salir, si no Login/Registro
     const authSection = user
         ? `<div class="auth">
-                <a href="${base}perfil.html" class="btn-perfil">👤 ${user}</a>
+                <div class="dropdown">
+                    <button class="dropdown-toggle">👤 ${user} ▾</button>
+                    <div class="dropdown-menu">
+                        <a href="${base}dashboard.html">Dashboard</a>
+                        <a href="${base}perfil.html">Perfil</a>
+                        <a href="${base}configuracion.html">Configuración</a>
+                        <a href="#" onclick="logoutUser()">Cerrar sesión</a>
+                    </div>
+                </div>
            </div>`
         : `<div class="auth">
                 <button class="login" onclick="window.location.href='${base}login.html'">Login</button>
@@ -28,12 +30,9 @@ function loadNavbar() {
         <ul class="nav-links">
             <li><a href="${home}" data-page="home">Inicio</a></li>
             <li><a href="${base}torneos.html" data-page="torneos">Torneos</a></li>
-            <li><a href="${base}dashboard.html" data-page="dashboard">Dashboard</a></li>
-            <li><a href="${base}leagues.html" data-page="leagues">Leagues</a></li>
+            <li><a href="${base}eventos.html" data-page="eventos">Eventos</a></li>
             <li><a href="${base}rewards.html" data-page="rewards">Rewards</a></li>
             <li><a href="${base}pass.html" data-page="pass">Pass</a></li>
-            <li><a href="${base}comunidad.html" data-page="comunidad">Comunidad</a></li>
-            <li><a href="${base}dashboard.html" data-page="dashboard">Dashboard</a></li>
         </ul>
 
         ${authSection}
@@ -42,6 +41,7 @@ function loadNavbar() {
 
     document.body.insertAdjacentHTML("afterbegin", navbar);
     setActiveLink();
+    initDropdown();
 }
 
 function setActiveLink() {
@@ -58,6 +58,21 @@ function setActiveLink() {
         if (linkFile === currentFile) {
             link.classList.add("active");
         }
+    });
+}
+
+function initDropdown() {
+    const toggle = document.querySelector(".dropdown-toggle");
+    const menu   = document.querySelector(".dropdown-menu");
+    if (!toggle || !menu) return;
+
+    toggle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        menu.classList.toggle("open");
+    });
+
+    document.addEventListener("click", () => {
+        menu.classList.remove("open");
     });
 }
 
