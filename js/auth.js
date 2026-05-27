@@ -1,16 +1,21 @@
-import { auth } from "./firebase-config.js";
+import { auth, db } from "./firebase-config.js";
 
 import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  updateProfile,
-  onAuthStateChanged
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    updateProfile,
+    onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 
-// Detectar sesión activa y actualizar navbar
+import {
+    doc,
+    setDoc
+} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+// Detectar sesión activa y sincronizar navbar
 onAuthStateChanged(auth, (user) => {
     if (user) {
-        const username = localStorage.getItem("rydenUsername") || user.email;
+        const username = localStorage.getItem("rydenUsername") || user.displayName || user.email;
         localStorage.setItem("rydenUser", username);
     } else {
         localStorage.removeItem("rydenUser");
@@ -18,19 +23,33 @@ onAuthStateChanged(auth, (user) => {
 });
 
 window.registerUser = async function () {
-    const username = document.getElementById("username").value.trim();
-    const email    = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value;
-    const confirm  = document.getElementById("confirmPassword").value;
+    const username        = document.getElementById("username").value.trim();
+    const email           = document.getElementById("email").value.trim();
+    const password        = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
 
     if (!username) { alert("Escribe un nombre de usuario"); return; }
-    if (password !== confirm) { alert("Las contraseñas no coinciden"); return; }
+    if (password !== confirmPassword) { alert("Las contraseñas no coinciden"); return; }
 
     try {
-        const cred = await createUserWithEmailAndPassword(auth, email, password);
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
 
-        // Guardar displayName en Firebase y en localStorage
-        await updateProfile(cred.user, { displayName: username });
+        // Guardar displayName en Firebase Auth
+        await updateProfile(user, { displayName: username });
+
+        // Guardar perfil completo en Firestore
+        await setDoc(doc(db, "users", user.uid), {
+            username:  username,
+            email:     email,
+            level:     1,
+            xp:        0,
+            coins:     0,
+            pass:      "free",
+            createdAt: new Date().toISOString()
+        });
+
+        // Sincronizar localStorage
         localStorage.setItem("rydenUsername", username);
         localStorage.setItem("rydenUser", username);
 
@@ -49,7 +68,6 @@ window.loginUser = async function () {
     try {
         const cred = await signInWithEmailAndPassword(auth, email, password);
 
-        // Usar displayName si existe
         const username = cred.user.displayName || cred.user.email;
         localStorage.setItem("rydenUsername", username);
         localStorage.setItem("rydenUser", username);
