@@ -4,12 +4,12 @@ function loadNavbar() {
     const base = inPages ? '' : 'pages/';
     const home = inPages ? '../index.html' : 'index.html';
 
-    const user = localStorage.getItem("rydenUser");
+    const user = window.rydenUser;
 
     const authSection = user
         ? `<div class="auth">
                 <div class="dropdown">
-                    <button class="dropdown-toggle">👤 ${user} ▾</button>
+                    <button class="dropdown-toggle">👤 ${user.username} ▾</button>
                     <div class="dropdown-menu">
                         <a href="${base}dashboard.html">Dashboard</a>
                         <a href="${base}perfil.html">Perfil</a>
@@ -26,7 +26,6 @@ function loadNavbar() {
     const navbar = `
     <nav class="navbar">
         <div class="logo">RYDEN</div>
-
         <ul class="nav-links">
             <li><a href="${home}" data-page="home">Inicio</a></li>
             <li><a href="${base}torneos.html" data-page="torneos">Torneos</a></li>
@@ -34,7 +33,6 @@ function loadNavbar() {
             <li><a href="${base}rewards.html" data-page="rewards">Rewards</a></li>
             <li><a href="${base}pass.html" data-page="pass">Pass</a></li>
         </ul>
-
         ${authSection}
     </nav>
     `;
@@ -47,17 +45,12 @@ function loadNavbar() {
 function setActiveLink() {
     const path = window.location.pathname;
     let currentFile = path.split('/').pop();
-
-    if (!currentFile || currentFile === 'ryden') {
-        currentFile = 'index.html';
-    }
+    if (!currentFile || currentFile === 'ryden') currentFile = 'index.html';
 
     document.querySelectorAll(".nav-links a").forEach(link => {
         link.classList.remove("active");
         const linkFile = link.getAttribute("href").split('/').pop();
-        if (linkFile === currentFile) {
-            link.classList.add("active");
-        }
+        if (linkFile === currentFile) link.classList.add("active");
     });
 }
 
@@ -71,9 +64,15 @@ function initDropdown() {
         menu.classList.toggle("open");
     });
 
-    document.addEventListener("click", () => {
-        menu.classList.remove("open");
-    });
+    document.addEventListener("click", () => menu.classList.remove("open"));
 }
 
-document.addEventListener("DOMContentLoaded", loadNavbar);
+// Esperar a que Firebase confirme el estado antes de renderizar navbar
+document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("rydenUserReady", loadNavbar);
+
+    // Si no hay usuario (páginas públicas) igual cargar navbar tras 1.5s máx
+    setTimeout(() => {
+        if (!document.querySelector(".navbar")) loadNavbar();
+    }, 1500);
+});

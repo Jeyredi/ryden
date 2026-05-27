@@ -14,41 +14,42 @@
 </div>
 
 <section class="profile">
-
     <div class="profile-card">
-
         <div class="avatar"></div>
-
-        <h2 id="username">Usuario</h2>
+        <h2 id="username">---</h2>
         <p class="tag" id="userTag">#RYD-000</p>
 
         <div class="stats">
-
             <div>
-                <h3 id="points">0</h3>
-                <p>Ryden Points</p>
+                <h3 id="coins">0</h3>
+                <p>Coins</p>
             </div>
-
             <div>
                 <h3 id="level">1</h3>
                 <p>Nivel</p>
             </div>
-
             <div>
-                <h3 id="matches">0</h3>
-                <p>Torneos</p>
+                <h3 id="xp">0</h3>
+                <p>XP</p>
             </div>
-
         </div>
 
-        <button onclick="logoutUser()">Cerrar sesión</button>
-
+        <button class="logout-btn" onclick="logoutUser()">Cerrar sesión</button>
     </div>
-
 </section>
 
-<script src="../js/script.js"></script>
+<script type="module" src="../js/firebase-auth-guard.js"></script>
 <script src="../js/components.js"></script>
+<script>
+document.addEventListener("rydenUserReady", () => {
+    const u = window.rydenUser;
+    document.getElementById("username").innerText = u.username;
+    document.getElementById("userTag").innerText  = "#RYD-" + u.username.slice(0,3).toUpperCase();
+    document.getElementById("coins").innerText    = u.coins;
+    document.getElementById("level").innerText    = u.level;
+    document.getElementById("xp").innerText       = u.xp;
+});
+</script>
 
 </body>
 </html>

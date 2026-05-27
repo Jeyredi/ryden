@@ -18,12 +18,12 @@
     <div class="dash-card user-card">
         <h2>👤 Usuario</h2>
         <p id="d-user">---</p>
-        <p id="d-tag">---</p>
+        <p id="d-tag" style="opacity:0.5;font-size:13px;">---</p>
     </div>
 
     <div class="dash-card">
-        <h2>💰 RP</h2>
-        <p id="d-points">0</p>
+        <h2>💰 Coins</h2>
+        <p id="d-coins">0</p>
     </div>
 
     <div class="dash-card">
@@ -32,8 +32,8 @@
     </div>
 
     <div class="dash-card">
-        <h2>🏆 Torneos</h2>
-        <p id="d-matches">0</p>
+        <h2>🔥 XP</h2>
+        <p id="d-xp">0</p>
     </div>
 
     <div class="dash-card big">
@@ -45,8 +45,18 @@
 
 </section>
 
-<script src="../js/script.js"></script>
+<script type="module" src="../js/firebase-auth-guard.js"></script>
 <script src="../js/components.js"></script>
+<script>
+document.addEventListener("rydenUserReady", () => {
+    const u = window.rydenUser;
+    document.getElementById("d-user").innerText  = u.username;
+    document.getElementById("d-tag").innerText   = "#RYD-" + u.username.slice(0,3).toUpperCase();
+    document.getElementById("d-coins").innerText = u.coins;
+    document.getElementById("d-level").innerText = u.level;
+    document.getElementById("d-xp").innerText    = u.xp;
+});
+</script>
 
 </body>
 </html>
