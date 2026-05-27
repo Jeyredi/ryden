@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventos - Admin Ryden</title>
+    <link rel="stylesheet" href="../../css/admin/admin.css">
+</head>
+<body>
+
+<div class="admin-main">
+    <div class="admin-header">
+        <h1>🎮 Eventos</h1>
+        <p>Crea y gestiona eventos sin tocar Firebase</p>
+    </div>
+
+    <div class="admin-panel">
+        <h2>Crear evento</h2>
+        <div class="admin-form">
+            <label>Título</label>
+            <input type="text" id="ev-title" placeholder="Torneo Free Fire">
+            <label>Juego</label>
+            <input type="text" id="ev-game" placeholder="Free Fire, Valorant...">
+            <label>Fecha</label>
+            <input type="date" id="ev-date">
+            <label>Premio</label>
+            <input type="text" id="ev-prize" placeholder="$20 USD">
+            <label>XP al participar</label>
+            <input type="number" id="ev-xp" placeholder="100">
+            <button class="btn btn-primary" onclick="createEvent()">✅ Crear evento</button>
+        </div>
+    </div>
+
+    <div class="admin-panel">
+        <h2>Eventos activos</h2>
+        <div id="events-list">Cargando...</div>
+    </div>
+</div>
+
+<script type="module" src="../../js/admin/admin-guard.js"></script>
+<script type="module">
+import { db } from "../../js/firebase-config.js";
+import { collection, addDoc, getDocs, deleteDoc, doc, serverTimestamp }
+    from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+let events = [];
+
+document.addEventListener("adminReady", loadEvents);
+
+async function loadEvents() {
+    const snap = await getDocs(collection(db, "events"));
+    events = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderEvents();
+}
+
+function renderEvents() {
+    const list = document.getElementById("events-list");
+    if (!events.length) { list.innerHTML = "<p style='opacity:0.4'>No hay eventos aún</p>"; return; }
+
+    list.innerHTML = events.map(e => `
+        <div class="event-card">
+            <div>
+                <h3>🎮 ${e.title}</h3>
+                <p>${e.game} · ${e.date} · Premio: ${e.prize} · +${e.xp || 0} XP</p>
+            </div>
+            <button class="btn btn-danger" onclick="deleteEvent('${e.id}')">🗑️ Eliminar</button>
+        </div>
+    `).join("");
+}
+
+window.createEvent = async function() {
+    const title = document.getElementById("ev-title").value.trim();
+    const game  = document.getElementById("ev-game").value.trim();
+    const date  = document.getElementById("ev-date").value;
+    const prize = document.getElementById("ev-prize").value.trim();
+    const xp    = parseInt(document.getElementById("ev-xp").value) || 0;
+
+    if (!title || !game || !date || !prize) { alert("Completa todos los campos"); return; }
+
+    const ref = await addDoc(collection(db, "events"), {
+        title, game, date, prize, xp,
+        createdAt: serverTimestamp()
+    });
+
+    events.push({ id: ref.id, title, game, date, prize, xp });
+    renderEvents();
+    alert("✅ Evento creado");
+    ["ev-title","ev-game","ev-date","ev-prize","ev-xp"].forEach(id => document.getElementById(id).value = "");
+};
+
+window.deleteEvent = async function(id) {
+    if (!confirm("¿Eliminar este evento?")) return;
+    await deleteDoc(doc(db, "events", id));
+    events = events.filter(e => e.id !== id);
+    renderEvents();
+};
+</script>
+<script src="../../js/admin/sidebar.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuarios - Admin Ryden</title>
+    <link rel="stylesheet" href="../../css/admin/admin.css">
+</head>
+<body>
+
+<div class="admin-main">
+    <div class="admin-header">
+        <h1>👥 Usuarios</h1>
+        <p>Gestiona todos los usuarios registrados</p>
+    </div>
+
+    <div class="admin-panel">
+        <input class="admin-search" id="search" placeholder="🔍 Buscar usuario..." oninput="filterUsers()">
+        <div id="users-list">Cargando...</div>
+    </div>
+</div>
+
+<!-- MODAL DAR XP -->
+<div class="modal-overlay" id="modal-xp">
+    <div class="modal">
+        <h3>⭐ Dar XP</h3>
+        <input type="number" id="xp-amount" placeholder="Cantidad de XP">
+        <div class="modal-actions">
+            <button class="btn btn-primary" onclick="confirmGiveXP()">Confirmar</button>
+            <button class="btn btn-outline" onclick="closeModal('modal-xp')">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL DAR COINS -->
+<div class="modal-overlay" id="modal-coins">
+    <div class="modal">
+        <h3>💰 Dar Monedas</h3>
+        <input type="number" id="coins-amount" placeholder="Cantidad de monedas">
+        <div class="modal-actions">
+            <button class="btn btn-primary" onclick="confirmGiveCoins()">Confirmar</button>
+            <button class="btn btn-outline" onclick="closeModal('modal-coins')">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+<script type="module" src="../../js/admin/admin-guard.js"></script>
+<script type="module">
+import { db } from "../../js/firebase-config.js";
+import { collection, getDocs, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+let allUsers = [];
+let selectedUID = null;
+
+document.addEventListener("adminReady", async () => {
+    const snap = await getDocs(collection(db, "users"));
+    allUsers = snap.docs.map(d => ({ uid: d.id, ...d.data() }));
+    renderUsers(allUsers);
+});
+
+function renderUsers(users) {
+    const list = document.getElementById("users-list");
+    if (!users.length) { list.innerHTML = "<p style='opacity:0.4'>No se encontraron usuarios</p>"; return; }
+
+    list.innerHTML = users.map(u => `
+        <div class="user-row" id="row-${u.uid}">
+            <div class="user-info">
+                <h3>👤 ${u.username || u.email}</h3>
+                <p>Nivel ${u.level || 1} · ${u.xp || 0} XP · ${u.coins || 0} coins · ${u.role || "user"}</p>
+            </div>
+            <div class="user-actions">
+                <button class="btn btn-outline" onclick="openXP('${u.uid}')">⭐ XP</button>
+                <button class="btn btn-outline" onclick="openCoins('${u.uid}')">💰 Coins</button>
+                <button class="btn btn-danger" onclick="banUser('${u.uid}')">🚫 Banear</button>
+            </div>
+        </div>
+    `).join("");
+}
+
+window.filterUsers = function() {
+    const q = document.getElementById("search").value.toLowerCase();
+    renderUsers(allUsers.filter(u =>
+        (u.username || "").toLowerCase().includes(q) ||
+        (u.email || "").toLowerCase().includes(q)
+    ));
+};
+
+window.openXP = function(uid) {
+    selectedUID = uid;
+    document.getElementById("xp-amount").value = "";
+    document.getElementById("modal-xp").classList.add("open");
+};
+
+window.openCoins = function(uid) {
+    selectedUID = uid;
+    document.getElementById("coins-amount").value = "";
+    document.getElementById("modal-coins").classList.add("open");
+};
+
+window.closeModal = function(id) {
+    document.getElementById(id).classList.remove("open");
+};
+
+window.confirmGiveXP = async function() {
+    const amount = parseInt(document.getElementById("xp-amount").value);
+    if (!amount || amount <= 0) { alert("Ingresa una cantidad válida"); return; }
+
+    const user = allUsers.find(u => u.uid === selectedUID);
+    let newXP = (user.xp || 0) + amount;
+    let newLevel = user.level || 1;
+
+    while (newXP >= newLevel * 100) {
+        newXP -= newLevel * 100;
+        newLevel++;
+    }
+
+    await updateDoc(doc(db, "users", selectedUID), { xp: newXP, level: newLevel });
+    user.xp = newXP;
+    user.level = newLevel;
+    closeModal("modal-xp");
+    renderUsers(allUsers);
+    alert(`✅ +${amount} XP dado a ${user.username}`);
+};
+
+window.confirmGiveCoins = async function() {
+    const amount = parseInt(document.getElementById("coins-amount").value);
+    if (!amount || amount <= 0) { alert("Ingresa una cantidad válida"); return; }
+
+    const user = allUsers.find(u => u.uid === selectedUID);
+    const newCoins = (user.coins || 0) + amount;
+
+    await updateDoc(doc(db, "users", selectedUID), { coins: newCoins });
+    user.coins = newCoins;
+    closeModal("modal-coins");
+    renderUsers(allUsers);
+    alert(`✅ +${amount} coins dado a ${user.username}`);
+};
+
+window.banUser = async function(uid) {
+    const user = allUsers.find(u => u.uid === uid);
+    if (!confirm(`¿Seguro que quieres banear a ${user.username}?`)) return;
+    await updateDoc(doc(db, "users", uid), { role: "banned" });
+    user.role = "banned";
+    renderUsers(allUsers);
+    alert(`🚫 ${user.username} ha sido baneado`);
+};
+</script>
+<script src="../../js/admin/sidebar.js"></script>
+
+</body>
+</html>

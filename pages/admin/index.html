@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Ryden</title>
+    <link rel="stylesheet" href="../../css/admin/admin.css">
+</head>
+<body>
+
+<div class="admin-main">
+    <div class="admin-header">
+        <h1>📊 Dashboard</h1>
+        <p>Vista general de Ryden</p>
+    </div>
+
+    <div class="stat-grid">
+        <div class="stat-card">
+            <div class="stat-icon">👥</div>
+            <div class="stat-num" id="stat-users">—</div>
+            <div class="stat-label">Usuarios</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">🎮</div>
+            <div class="stat-num" id="stat-events">—</div>
+            <div class="stat-label">Eventos</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">🏆</div>
+            <div class="stat-num" id="stat-tournaments">—</div>
+            <div class="stat-label">Torneos</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">🎁</div>
+            <div class="stat-num" id="stat-rewards">—</div>
+            <div class="stat-label">Rewards</div>
+        </div>
+    </div>
+
+    <div class="admin-panel">
+        <h2>⚡ Acceso rápido</h2>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;">
+            <button class="btn btn-primary" onclick="location.href='users.html'">👥 Ver usuarios</button>
+            <button class="btn btn-primary" onclick="location.href='events.html'">🎮 Crear evento</button>
+            <button class="btn btn-outline" onclick="location.href='tournaments.html'">🏆 Torneos</button>
+            <button class="btn btn-outline" onclick="location.href='rewards.html'">🎁 Rewards</button>
+        </div>
+    </div>
+</div>
+
+<script type="module" src="../../js/admin/admin-guard.js"></script>
+<script type="module">
+import { db } from "../../js/firebase-config.js";
+import { collection, getCountFromServer } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+document.addEventListener("adminReady", async () => {
+    const collections = [
+        { id:"stat-users",       col:"users" },
+        { id:"stat-events",      col:"events" },
+        { id:"stat-tournaments", col:"tournaments" },
+        { id:"stat-rewards",     col:"rewards" }
+    ];
+
+    for (const c of collections) {
+        try {
+            const snap = await getCountFromServer(collection(db, c.col));
+            document.getElementById(c.id).innerText = snap.data().count;
+        } catch {
+            document.getElementById(c.id).innerText = "0";
+        }
+    }
+});
+</script>
+<script src="../../js/admin/sidebar.js"></script>
+
+</body>
+</html>
