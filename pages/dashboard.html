@@ -15,27 +15,37 @@
 
 <section class="dashboard">
 
+    <!-- USUARIO -->
     <div class="dash-card user-card">
-        <h2>👤 Usuario</h2>
-        <p id="d-user">---</p>
-        <p id="d-tag" style="opacity:0.5;font-size:13px;">---</p>
+        <h2>👤 <span id="d-user">---</span></h2>
+        <p id="d-pass" class="pass-badge">Free</p>
     </div>
 
+    <!-- XP Y NIVEL -->
+    <div class="dash-card xp-card">
+        <h2>⭐ Nivel <span id="d-level">1</span></h2>
+        <div class="xp-bar-wrap">
+            <div class="xp-bar" id="d-xp-bar" style="width:0%"></div>
+        </div>
+        <p class="xp-label">XP: <span id="d-xp">0</span> / <span id="d-xp-max">100</span></p>
+    </div>
+
+    <!-- COINS -->
     <div class="dash-card">
-        <h2>💰 Coins</h2>
+        <h2>💰 Monedas</h2>
         <p id="d-coins">0</p>
     </div>
 
-    <div class="dash-card">
-        <h2>⭐ Nivel</h2>
-        <p id="d-level">1</p>
+    <!-- MISIONES -->
+    <div class="dash-card big">
+        <h2>🎯 Misiones</h2>
+        <div class="mission-item">
+            <span>🎁 Bienvenida — Por registrarte en Ryden</span>
+            <button id="btn-welcome" onclick="claimMission('welcome', 50, 10)">Reclamar (+50 XP +10 coins)</button>
+        </div>
     </div>
 
-    <div class="dash-card">
-        <h2>🔥 XP</h2>
-        <p id="d-xp">0</p>
-    </div>
-
+    <!-- ACCIONES -->
     <div class="dash-card big">
         <h2>⚡ Acciones rápidas</h2>
         <button onclick="location.href='torneos.html'">Ver Torneos</button>
@@ -48,14 +58,34 @@
 <script type="module" src="../js/firebase-auth-guard.js"></script>
 <script src="../js/components.js"></script>
 <script>
-document.addEventListener("rydenUserReady", () => {
+function xpForLevel(level) { return level * 100; }
+
+function renderDashboard() {
     const u = window.rydenUser;
-    document.getElementById("d-user").innerText  = u.username;
-    document.getElementById("d-tag").innerText   = "#RYD-" + u.username.slice(0,3).toUpperCase();
-    document.getElementById("d-coins").innerText = u.coins;
-    document.getElementById("d-level").innerText = u.level;
-    document.getElementById("d-xp").innerText    = u.xp;
-});
+    if (!u) return;
+
+    document.getElementById("d-user").innerText   = u.username;
+    document.getElementById("d-pass").innerText   = u.pass.charAt(0).toUpperCase() + u.pass.slice(1);
+    document.getElementById("d-level").innerText  = u.level;
+    document.getElementById("d-coins").innerText  = u.coins;
+
+    const max = xpForLevel(u.level);
+    const pct = Math.min((u.xp / max) * 100, 100);
+    document.getElementById("d-xp").innerText     = u.xp;
+    document.getElementById("d-xp-max").innerText = max;
+    document.getElementById("d-xp-bar").style.width = pct + "%";
+
+    // Botón misión: deshabilitar si ya reclamada
+    const btn = document.getElementById("btn-welcome");
+    if (u.missions["welcome"]) {
+        btn.innerText  = "✅ Reclamada";
+        btn.disabled   = true;
+        btn.style.opacity = "0.5";
+        btn.style.cursor  = "default";
+    }
+}
+
+document.addEventListener("rydenUserReady", renderDashboard);
 </script>
 
 </body>

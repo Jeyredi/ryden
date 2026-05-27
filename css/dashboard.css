@@ -52,3 +52,74 @@
     box-shadow:0 0 15px #ff0033;
     transform:scale(1.05);
 }
+
+/* XP BAR */
+.xp-card{
+    grid-column: span 2;
+}
+
+.xp-bar-wrap{
+    width:100%;
+    height:8px;
+    background:#1a1a1a;
+    border-radius:4px;
+    margin:12px 0 6px;
+    overflow:hidden;
+}
+
+.xp-bar{
+    height:100%;
+    background:#ff0033;
+    box-shadow:0 0 10px #ff003388;
+    border-radius:4px;
+    transition:width 0.5s ease;
+}
+
+.xp-label{
+    font-size:13px;
+    opacity:0.6;
+}
+
+.pass-badge{
+    display:inline-block;
+    margin-top:8px;
+    padding:3px 10px;
+    border:1px solid #ff0033;
+    border-radius:20px;
+    font-size:12px;
+    color:#ff0033;
+    letter-spacing:1px;
+}
+
+/* MISIONES */
+.mission-item{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:10px;
+    padding:14px 0;
+    border-bottom:1px solid #ff000015;
+}
+
+.mission-item span{
+    font-size:14px;
+    opacity:0.8;
+}
+
+.mission-item button{
+    padding:8px 14px;
+    background:#ff0033;
+    border:none;
+    color:white;
+    cursor:pointer;
+    border-radius:8px;
+    font-size:13px;
+    transition:0.3s;
+    white-space:nowrap;
+}
+
+.mission-item button:hover{
+    box-shadow:0 0 12px #ff0033;
+    transform:scale(1.04);
+}

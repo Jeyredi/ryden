@@ -10,36 +10,60 @@
 
 <div class="hero small">
     <h1>Rewards</h1>
-    <p>Gana puntos y sube de nivel</p>
+    <p>Gana XP y sube de nivel</p>
 </div>
 
 <section class="rewards">
-
-    <div class="reward-card">
-        <h2>💰 Tus puntos</h2>
-        <p id="points">0 RP</p>
-    </div>
 
     <div class="reward-card">
         <h2>⭐ Nivel</h2>
         <p id="level">1</p>
     </div>
 
+    <div class="reward-card">
+        <h2>🔥 XP</h2>
+        <p id="xp">0</p>
+    </div>
+
+    <div class="reward-card">
+        <h2>💰 Coins</h2>
+        <p id="coins">0</p>
+    </div>
+
     <div class="missions">
-
-        <h2>🎯 Misiones</h2>
-
-        <button onclick="completeMission('login')">Iniciar sesión (+10 RP)</button>
-
-        <button onclick="completeMission('play1')">Entrar a torneos (+20 RP)</button>
-
+        <h2>🎯 Misiones disponibles</h2>
+        <div class="mission-item">
+            <span>🎁 Misión de bienvenida — Por registrarte en Ryden</span>
+            <button id="btn-welcome" onclick="claimMission('welcome', 50, 10)">Reclamar (+50 XP +10 coins)</button>
+        </div>
     </div>
 
 </section>
 
-
 <script type="module" src="../js/firebase-auth-guard.js"></script>
 <script src="../js/components.js"></script>
+<script>
+function xpForLevel(level) { return level * 100; }
+
+function renderRewards() {
+    const u = window.rydenUser;
+    if (!u) return;
+
+    document.getElementById("level").innerText = u.level;
+    document.getElementById("xp").innerText    = u.xp + " / " + xpForLevel(u.level) + " XP";
+    document.getElementById("coins").innerText = u.coins;
+
+    const btn = document.getElementById("btn-welcome");
+    if (u.missions["welcome"]) {
+        btn.innerText     = "✅ Reclamada";
+        btn.disabled      = true;
+        btn.style.opacity = "0.5";
+        btn.style.cursor  = "default";
+    }
+}
+
+document.addEventListener("rydenUserReady", renderRewards);
+</script>
 
 </body>
 </html>

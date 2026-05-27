@@ -1,27 +1,27 @@
 import { auth, db } from "./firebase-config.js";
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
-import { doc, getDoc } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+import { doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
-// Páginas que requieren sesión activa
 const protectedPages = ["dashboard.html", "perfil.html", "configuracion.html"];
-// Páginas que NO deben verse si ya hay sesión
-const authPages = ["login.html", "register.html"];
+const authPages      = ["login.html", "register.html"];
+const currentPage    = window.location.pathname.split("/").pop();
 
-const currentPage = window.location.pathname.split("/").pop();
+// XP necesario para cada nivel
+function xpForLevel(level) {
+    return level * 100;
+}
 
 onAuthStateChanged(auth, async (user) => {
     if (user) {
-        // Redirigir si intenta entrar a login/register ya autenticado
         if (authPages.includes(currentPage)) {
             window.location.href = "dashboard.html";
             return;
         }
 
-        // Leer datos reales de Firestore
-        const snap = await getDoc(doc(db, "users", user.uid));
+        const ref  = doc(db, "users", user.uid);
+        const snap = await getDoc(ref);
         const data = snap.exists() ? snap.data() : {};
 
-        // Guardar en window para que otras funciones lo usen sin re-leer Firestore
         window.rydenUser = {
             uid:      user.uid,
             email:    user.email,
@@ -29,24 +29,74 @@ onAuthStateChanged(auth, async (user) => {
             level:    data.level   || 1,
             xp:       data.xp      || 0,
             coins:    data.coins   || 0,
-            pass:     data.pass    || "free"
+            pass:     data.pass    || "free",
+            missions: data.missions || {}
         };
 
-        // Disparar evento para que perfil/dashboard sepan que ya hay datos
         document.dispatchEvent(new Event("rydenUserReady"));
 
     } else {
         window.rydenUser = null;
-
-        // Redirigir si intenta entrar a página protegida sin sesión
         if (protectedPages.includes(currentPage)) {
             window.location.href = "login.html";
         }
+        document.dispatchEvent(new Event("rydenUserReady"));
     }
 });
 
-// Logout global
+// Dar XP y coins, subir nivel automáticamente
+window.giveXP = async function(xp, coins = 0) {
+    const u   = window.rydenUser;
+    if (!u) return;
+
+    let newXP    = u.xp + xp;
+    let newLevel = u.level;
+    let newCoins = u.coins + coins;
+
+    // Subir nivel si corresponde
+    while (newXP >= xpForLevel(newLevel)) {
+        newXP -= xpForLevel(newLevel);
+        newLevel++;
+    }
+
+    await updateDoc(doc(db, "users", u.uid), {
+        xp:     newXP,
+        level:  newLevel,
+        coins:  newCoins
+    });
+
+    window.rydenUser.xp     = newXP;
+    window.rydenUser.level  = newLevel;
+    window.rydenUser.coins  = newCoins;
+
+    document.dispatchEvent(new Event("rydenUserReady"));
+};
+
+// Reclamar misión única
+window.claimMission = async function(missionId, xp, coins = 0) {
+    const u = window.rydenUser;
+    if (!u) return;
+
+    if (u.missions[missionId]) {
+        alert("Ya reclamaste esta misión");
+        return;
+    }
+
+    const updatedMissions = { ...u.missions, [missionId]: true };
+
+    await updateDoc(doc(db, "users", u.uid), {
+        [`missions.${missionId}`]: true
+    });
+
+    window.rydenUser.missions = updatedMissions;
+
+    await window.giveXP(xp, coins);
+    alert(`+${xp} XP y +${coins} coins reclamados`);
+    document.dispatchEvent(new Event("rydenUserReady"));
+};
+
 window.logoutUser = async function () {
     await signOut(auth);
-    window.location.href = "../index.html";
+    const inPages = window.location.pathname.includes('/pages/');
+    window.location.href = inPages ? '../index.html' : 'index.html';
 };
